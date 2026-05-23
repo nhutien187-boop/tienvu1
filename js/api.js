@@ -135,15 +135,3 @@ var AuthService = {
 // Lưu ý: Giữ lại các hàm cũ này nếu bạn đang gọi chúng ở trang index.html cũ
 function getSchedules() { return ScheduleService.getAll(); }
 function toggleScheduleStatus(id, isTaken) { return ScheduleService.toggleStatus(id, isTaken); }
-$(document).ready(() => {
-    // Kiểm tra trạng thái đăng nhập
-    const user = localStorage.getItem("userLoggedIn");
-    if (!user) {
-        // Nếu chưa đăng nhập, đá người dùng quay lại trang login
-        window.location.href = "login.html";
-        return;
-    }
-    
-    // Nếu muốn làm nút "Đăng xuất":
-    // localStorage.removeItem("userLoggedIn"); window.location.href = "login.html";
-});

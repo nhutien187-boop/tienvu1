@@ -224,150 +224,21 @@
     </style>
 </head>
 <body>
-    <div class="auth-container">
-        <div class="auth-card">
-            <div class="auth-header">
-                <div class="auth-logo">💊</div>
-                <h1>MedReminder</h1>
-                <p>Quản lý & Theo dõi thuốc hàng ngày</p>
-            </div>
-
-            <!-- FORM ĐĂNG NHẬP -->
-            <form id="formLogin" class="visible-form">
-                <div class="form-group">
-                    <label class="form-label">Email</label>
-                    <input type="email" id="loginEmail" class="form-control" placeholder="your@email.com" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Mật khẩu</label>
-                    <input type="password" id="loginPassword" class="form-control" placeholder="••••••••" required>
-                </div>
-                <button type="submit" class="btn btn-auth btn-primary w-100 mb-3">Đăng nhập</button>
-                
-                <div class="quick-login">
-                    <button type="button" class="btn btn-auth quick-login-btn w-100 mb-2" onclick="quickLoginAdmin()">
-                        <i class="bi bi-lightning-fill"></i>Đăng nhập Admin nhanh
-                    </button>
-                </div>
-
-                <div class="hint-text">
-                    <strong>💡 Tài khoản Demo:</strong><br>
-                    Email: admin@medreminder.com<br>
-                    Mật khẩu: Admin123
-                </div>
-
-                <div class="form-toggle">
-                    <p>Chưa có tài khoản? <button type="button" onclick="toggleForm(false)">Đăng ký ngay</button></p>
-                </div>
-            </form>
-
-            <!-- FORM ĐĂNG KÝ -->
-            <form id="formRegister" class="hidden-form">
-                <div class="form-group">
-                    <label class="form-label">Họ và tên</label>
-                    <input type="text" id="regName" class="form-control" placeholder="Tên của bạn" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Email</label>
-                    <input type="email" id="regEmail" class="form-control" placeholder="your@email.com" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Mật khẩu</label>
-                    <input type="password" id="regPassword" class="form-control" placeholder="••••••••" required>
-                </div>
-                <button type="submit" class="btn btn-auth btn-primary w-100 mb-3">Đăng ký</button>
-                
-                <div class="quick-login">
-                    <button type="button" class="btn btn-auth quick-login-btn w-100 mb-2" onclick="quickRegisterDemo()">
-                        <i class="bi bi-lightning-fill"></i>Tạo tài khoản Demo
-                    </button>
-                </div>
-
-                <div class="form-toggle">
-                    <p>Đã có tài khoản? <button type="button" onclick="toggleForm(true)">Đăng nhập</button></p>
-                </div>
-            </form>
+    <div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; font-family: Inter, Arial, sans-serif; background: #f4f7ff; padding: 20px;">
+        <div style="max-width: 520px; width: 100%; text-align: center; background: #ffffff; border-radius: 24px; padding: 32px; box-shadow: 0 24px 60px rgba(49, 67, 160, 0.12);">
+            <div style="font-size: 42px; margin-bottom: 16px;">💊</div>
+            <h1 style="font-size: 28px; margin-bottom: 12px; color: #232a4a;">Đăng nhập đã được tắt</h1>
+            <p style="color: #6f7b9d; margin-bottom: 24px; line-height: 1.6;">
+                Trang đăng nhập không còn được sử dụng. Bạn sẽ được chuyển về trang chủ ngay sau đây.
+            </p>
+            <a href="index.html" style="display: inline-block; padding: 12px 24px; background: linear-gradient(135deg, #5b3cff, #7588ff); color: #fff; text-decoration: none; border-radius: 999px; font-weight: 700;">
+                Về trang chủ
+            </a>
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="js/auth.js"></script>
     <script>
-        // Chuyển đổi form
-        function toggleForm(showLogin) {
-            const loginForm = $('#formLogin');
-            const registerForm = $('#formRegister');
-
-            if (showLogin) {
-                loginForm.removeClass('hidden-form').addClass('visible-form');
-                registerForm.removeClass('visible-form').addClass('hidden-form');
-            } else {
-                loginForm.removeClass('visible-form').addClass('hidden-form');
-                registerForm.removeClass('hidden-form').addClass('visible-form');
-            }
-
-            // Reset forms
-            $('#loginEmail').val('');
-            $('#loginPassword').val('');
-            $('#regName').val('');
-            $('#regEmail').val('');
-            $('#regPassword').val('');
-        }
-
-        // Xử lý sự kiện Đăng nhập
-        $('#formLogin').submit(function(e) {
-            e.preventDefault();
-            const email = $('#loginEmail').val().trim();
-            const password = $('#loginPassword').val();
-
-            const result = loginUser(email, password);
-            if (!result.success) {
-                alert(result.message);
-                return;
-            }
-
-            window.location.href = 'index.html';
-        });
-
-        // Xử lý sự kiện Đăng ký
-        $('#formRegister').submit(function(e) {
-            e.preventDefault();
-            const name = $('#regName').val().trim();
-            const email = $('#regEmail').val().trim();
-            const password = $('#regPassword').val();
-
-            if (!name || !email || !password) {
-                alert('Vui lòng nhập đầy đủ thông tin!');
-                return;
-            }
-
-            const result = registerUser({ name, email, password });
-            if (!result.success) {
-                alert(result.message);
-                return;
-            }
-
-            // Đăng nhập tự động sau khi đăng ký
-            const loginResult = loginUser(email, password);
-            if (loginResult.success) {
-                window.location.href = 'index.html';
-            }
-        });
-
-        // Quick login admin
-        function quickLoginAdmin() {
-            $('#loginEmail').val('admin@medreminder.com');
-            $('#loginPassword').val('Admin123');
-            $('#formLogin').submit();
-        }
-
-        // Quick register demo user
-        function quickRegisterDemo() {
-            $('#regName').val('Demo User');
-            $('#regEmail').val('demo@example.com');
-            $('#regPassword').val('123456');
-            $('#formRegister').submit();
-        }
+        window.location.replace('index.html');
     </script>
 </body>
 </html>

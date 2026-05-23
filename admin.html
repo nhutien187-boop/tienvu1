@@ -502,5 +502,31 @@
             }
         }
     </script>
+    <script>
+        (function() {
+            const STORAGE_KEY = 'medreminder_standalone_current_user';
+
+            function getCurrentUser() {
+                try {
+                    const raw = localStorage.getItem(STORAGE_KEY);
+                    if (!raw) return null;
+                    return JSON.parse(raw);
+                } catch (error) {
+                    return null;
+                }
+            }
+
+            const currentUser = getCurrentUser();
+
+            if (!currentUser) {
+                window.location.replace('auth-standalone.html');
+                return;
+            }
+
+            if (currentUser.role !== 'admin') {
+                window.location.replace('index.html');
+            }
+        })();
+    </script>
 </body>
 </html>
