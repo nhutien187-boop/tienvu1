@@ -210,12 +210,161 @@
             margin-bottom: 30px;
         }
 
+        .view-toggle {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .view-toggle .btn {
+            border-radius: 999px;
+            font-weight: 700;
+            padding: 0.65rem 1.1rem;
+        }
+
+        .view-toggle .btn.active {
+            background: var(--primary);
+            color: #fff;
+            box-shadow: 0 16px 34px rgba(91, 60, 255, 0.18);
+        }
+
         .time-badge {
             background: rgba(91, 60, 255, 0.08);
             color: var(--primary);
             padding: 8px 18px;
             border-radius: 999px;
             font-weight: 700;
+        }
+
+        .calendar-week-grid {
+            display: grid;
+            grid-template-columns: repeat(7, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .calendar-day-column {
+            background: rgba(255,255,255,0.95);
+            border-radius: 24px;
+            border: 1px solid rgba(110, 125, 255, 0.12);
+            padding: 18px 14px;
+            min-height: 240px;
+            box-shadow: 0 18px 46px rgba(82, 94, 180, 0.08);
+        }
+
+        .calendar-day-title {
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .calendar-day-meta {
+            color: var(--muted);
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+        }
+
+        .calendar-day-count {
+            display: inline-flex;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: rgba(91, 60, 255, 0.08);
+            color: var(--primary);
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .calendar-item {
+            background: #f8f9ff;
+            border-radius: 18px;
+            padding: 12px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(110, 125, 255, 0.10);
+        }
+
+        .calendar-item .calendar-item-time {
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 6px;
+        }
+
+        .calendar-item .calendar-item-name {
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .calendar-item .calendar-item-status {
+            font-size: 0.82rem;
+            color: var(--muted);
+        }
+
+        .calendar-empty-state {
+            color: var(--muted);
+            font-size: 0.92rem;
+            padding-top: 4px;
+        }
+
+        .calendar-month-grid {
+            display: grid;
+            grid-template-columns: repeat(7, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .calendar-month-cell {
+            background: rgba(255,255,255,0.96);
+            border-radius: 18px;
+            border: 1px solid rgba(110, 125, 255, 0.12);
+            min-height: 120px;
+            padding: 12px;
+            box-shadow: 0 14px 36px rgba(82, 94, 180, 0.06);
+        }
+
+        .calendar-month-cell--disabled {
+            opacity: 0.48;
+        }
+
+        .calendar-month-cell--today {
+            border-color: rgba(91, 60, 255, 0.4);
+        }
+
+        .calendar-month-label {
+            font-size: 0.8rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+
+        .calendar-month-summary {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 0.86rem;
+            color: var(--muted);
+        }
+
+        .calendar-month-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            width: fit-content;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: rgba(91, 60, 255, 0.08);
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        @media (max-width: 992px) {
+            .calendar-week-grid,
+            .calendar-month-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 640px) {
+            .calendar-week-grid,
+            .calendar-month-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         .form-control,
@@ -327,19 +476,26 @@
     </nav>
 
     <div class="container mt-4">
-        <div class="filter-section d-flex flex-wrap align-items-center justify-content-between gap-3">
-            <div>
-                <h5 class="fw-bold mb-1">Xem lịch uống thuốc</h5>
-                <p class="text-muted small mb-0">Chọn ngày để kiểm tra hoặc thêm lịch mới</p>
+        <div class="filter-section">
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
+                <div>
+                    <h5 class="fw-bold mb-1">Xem lịch uống thuốc</h5>
+                    <p class="text-muted small mb-0">Chọn ngày, tuần hoặc tháng để theo dõi thuốc</p>
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                    <label class="fw-bold small mb-0">Ngày:</label>
+                    <input type="date" id="dateFilter" class="form-control rounded-pill border-primary shadow-sm">
+                </div>
             </div>
-            <div class="d-flex align-items-center gap-2">
-                <label class="fw-bold small">Ngày:</label>
-                <input type="date" id="dateFilter" class="form-control rounded-pill border-primary shadow-sm">
+
+            <div class="view-toggle" id="viewToggle">
+                <button type="button" class="btn btn-outline-primary active" data-view="day">Ngày</button>
+                <button type="button" class="btn btn-outline-primary" data-view="week">Tuần</button>
+                <button type="button" class="btn btn-outline-primary" data-view="month">Tháng</button>
             </div>
         </div>
 
-        <div class="row g-4" id="scheduleContainer">
-            </div>
+        <div id="scheduleContainer"></div>
     </div>
 
     <button class="fab-add" data-bs-toggle="modal" data-bs-target="#addModal">
@@ -373,6 +529,9 @@
     <script>
         const API_URL = "https://6a06dc73c83ba8ad9b3e047a.mockapi.io/schedules";
 
+        let currentView = 'day';
+        let currentDate = new Date();
+
         function getLocalDateString(dateObj) {
             const year = dateObj.getFullYear();
             const month = String(dateObj.getMonth() + 1).padStart(2, '0');
@@ -380,73 +539,209 @@
             return `${year}-${month}-${day}`;
         }
 
+        function parseLocalDate(value) {
+            if (!value) {
+                return null;
+            }
+
+            const [year, month, day] = value.split('-').map(Number);
+            if (!year || !month || !day) {
+                return null;
+            }
+
+            return new Date(year, month - 1, day);
+        }
+
         function normalizeDateValue(rawDate) {
             if (!rawDate) return '';
             return rawDate.split('T')[0];
         }
 
-        $(document).ready(() => {
-            const today = getLocalDateString(new Date());
-            $('#dateFilter').val(today);
-            loadSchedules(today);
-        });
+        function createDate(dateStr) {
+            const [year, month, day] = dateStr.split('-').map(Number);
+            return new Date(year, month - 1, day);
+        }
 
-        $('#dateFilter').change(function() {
-            loadSchedules($(this).val());
-        });
+        function getWeekStart(dateObj) {
+            const baseDate = new Date(dateObj);
+            const day = baseDate.getDay();
+            const diff = (day === 0 ? -6 : 1) - day;
+            baseDate.setDate(baseDate.getDate() + diff);
+            baseDate.setHours(0, 0, 0, 0);
+            return baseDate;
+        }
 
-        async function loadSchedules(selectedDate) {
+        function getWeekDays(weekStart) {
+            return Array.from({ length: 7 }, (_, index) => {
+                const date = new Date(weekStart);
+                date.setDate(weekStart.getDate() + index);
+                return date;
+            });
+        }
+
+        function getMonthDays(baseDate) {
+            const firstDay = new Date(baseDate.getFullYear(), baseDate.getMonth(), 1);
+            const startOffset = (firstDay.getDay() + 6) % 7;
+            const start = new Date(firstDay);
+            start.setDate(firstDay.getDate() - startOffset);
+
+            return Array.from({ length: 42 }, (_, index) => {
+                const date = new Date(start);
+                date.setDate(start.getDate() + index);
+                return date;
+            });
+        }
+
+        function getScheduleForDate(items, dateStr) {
+            return items
+                .filter(item => normalizeDateValue(item.date) === dateStr)
+                .sort((a, b) => a.time.localeCompare(b.time));
+        }
+
+        function renderDayView(items) {
+            const container = $('#scheduleContainer').empty();
+            const currentDateStr = getLocalDateString(currentDate);
+            const dayItems = getScheduleForDate(items, currentDateStr);
+
+            if (dayItems.length === 0) {
+                container.append(`<div class="text-center mt-5"><p class="mb-0 text-muted">Trống lịch cho ngày này</p></div>`);
+                return;
+            }
+
+            const cards = dayItems.map(item => `
+                <div class="col-md-6 col-lg-4">
+                    <div class="card card-med p-3 ${item.isTaken ? 'is-taken' : ''}">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between mb-3">
+                                <span class="time-badge"><i class="bi bi-alarm me-1"></i>${item.time}</span>
+                                ${item.isTaken ? '<span class="badge bg-success rounded-pill px-3">Đã xong</span>' : '<span class="badge bg-warning text-dark rounded-pill px-3">Chờ uống</span>'}
+                            </div>
+                            <h5 class="med-name fw-bold mb-2">${item.medName}</h5>
+                            <p class="text-muted small mb-4">Ngày nhắc: ${currentDateStr}</p>
+                            <button class="btn w-100 rounded-pill fw-bold transition ${item.isTaken ? 'btn-outline-secondary' : 'btn-primary shadow'}" onclick="markAsTaken('${item.id}', ${item.isTaken})">
+                                ${item.isTaken ? 'Hoàn tác' : 'Đã uống thuốc'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            container.append(`<div class="row g-4">${cards}</div>`);
+        }
+
+        function renderWeekView(items) {
+            const container = $('#scheduleContainer').empty();
+            const weekStart = getWeekStart(currentDate);
+            const weekDays = getWeekDays(weekStart);
+
+            const columns = weekDays.map(day => {
+                const dateStr = getLocalDateString(day);
+                const dayItems = getScheduleForDate(items, dateStr);
+
+                const entries = dayItems.map(item => `
+                    <div class="calendar-item">
+                        <div class="calendar-item-time">${item.time}</div>
+                        <div class="calendar-item-name">${item.medName}</div>
+                        <div class="calendar-item-status">${item.isTaken ? 'Đã xong' : 'Chờ uống'}</div>
+                    </div>
+                `).join('');
+
+                return `
+                    <div class="calendar-day-column">
+                        <div class="calendar-day-title">${day.getDate()}</div>
+                        <div class="calendar-day-meta">${day.toLocaleDateString('vi-VN', { weekday: 'short' })}</div>
+                        <div class="calendar-day-count">${dayItems.length} nhắc</div>
+                        ${entries || '<div class="calendar-empty-state">Không có lịch</div>'}
+                    </div>
+                `;
+            }).join('');
+
+            container.append(`<div class="calendar-week-grid">${columns}</div>`);
+        }
+
+        function renderMonthView(items) {
+            const container = $('#scheduleContainer').empty();
+            const monthDays = getMonthDays(currentDate);
+            const headings = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'];
+
+            const cells = monthDays.map(day => {
+                const dateStr = getLocalDateString(day);
+                const dayItems = getScheduleForDate(items, dateStr);
+                const isCurrentMonth = day.getMonth() === currentDate.getMonth();
+                const isToday = dateStr === getLocalDateString(new Date());
+
+                const summary = dayItems.slice(0, 2).map(item => `
+                    <div class="calendar-month-pill">${item.time} • ${item.medName}</div>
+                `).join('');
+
+                return `
+                    <div class="calendar-month-cell ${!isCurrentMonth ? 'calendar-month-cell--disabled' : ''} ${isToday ? 'calendar-month-cell--today' : ''}">
+                        <div class="calendar-month-label">${day.getDate()}</div>
+                        <div class="calendar-month-summary">
+                            ${summary || '<span class="text-muted">Không có lịch</span>'}
+                            ${dayItems.length > 2 ? `<span class="text-muted">+${dayItems.length - 2} nhắc khác</span>` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            const header = headings.map(label => `<div class="text-center fw-bold text-muted">${label}</div>`).join('');
+            container.append(`<div class="calendar-month-grid">${header}${cells}</div>`);
+        }
+
+        function renderScheduleView(items) {
+            if (currentView === 'week') {
+                renderWeekView(items);
+                return;
+            }
+
+            if (currentView === 'month') {
+                renderMonthView(items);
+                return;
+            }
+
+            renderDayView(items);
+        }
+
+        async function loadSchedules() {
             $('#loading-overlay').removeClass('d-none');
             try {
                 const res = await fetch(API_URL);
                 const data = await res.json();
-                
-                const filtered = data.filter(item => normalizeDateValue(item.date) === selectedDate);
-                filtered.sort((a, b) => a.time.localeCompare(b.time));
-
-                const container = $('#scheduleContainer').empty();
-                if (filtered.length === 0) {
-                    container.append('<div class="text-center mt-5"><p>Trống lịch cho ngày này</p></div>');
-                    $('#nextReminderTime').text('--:--');
-                    $('#nextReminderName').text('Chưa có lịch hôm nay');
-                } else {
-                    const nextReminder = filtered.find(item => !item.isTaken) || filtered[0];
-                    $('#nextReminderTime').text(nextReminder.time || '--:--');
-                    $('#nextReminderName').text(nextReminder.medName || 'Chưa có lịch hôm nay');
-                }
-
-                filtered.forEach(item => {
-                    const displayDate = normalizeDateValue(item.date) || selectedDate;
-                    container.append(`
-                        <div class="col-md-6 col-lg-4">
-                            <div class="card card-med p-3 ${item.isTaken ? 'is-taken' : ''}">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between mb-3">
-                                        <span class="time-badge"><i class="bi bi-alarm me-1"></i>${item.time}</span>
-                                        ${item.isTaken ? '<span class="badge bg-success rounded-pill px-3">Đã xong</span>' : '<span class="badge bg-warning text-dark rounded-pill px-3">Chờ uống</span>'}
-                                    </div>
-                                    <h5 class="med-name fw-bold mb-2">${item.medName}</h5>
-                                    <p class="text-muted small mb-4">Ngày nhắc: ${displayDate}</p>
-                                    <button class="btn w-100 rounded-pill fw-bold transition ${item.isTaken ? 'btn-outline-secondary' : 'btn-primary shadow'}" 
-                                            onclick="markAsTaken('${item.id}', ${item.isTaken})">
-                                        ${item.isTaken ? 'Hoàn tác' : 'Đã uống thuốc'}
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    `);
-                });
-            } catch (error) { console.error(error); } 
-            finally { $('#loading-overlay').addClass('d-none'); }
+                renderScheduleView(data);
+            } catch (error) {
+                console.error(error);
+            } finally {
+                $('#loading-overlay').addClass('d-none');
+            }
         }
 
-        // Chức năng THÊM NHANH (POST)
+        $(document).ready(() => {
+            currentDate = new Date();
+            $('#dateFilter').val(getLocalDateString(currentDate));
+            loadSchedules();
+        });
+
+        $('#dateFilter').change(function() {
+            currentDate = parseLocalDate($(this).val()) || new Date();
+            loadSchedules();
+        });
+
+        $('#viewToggle .btn').on('click', function() {
+            $('#viewToggle .btn').removeClass('active');
+            $(this).addClass('active');
+            currentView = $(this).data('view');
+            loadSchedules();
+        });
+
         $('#btnSaveQuick').click(async function() {
             const medName = $('#newMedName').val();
             const time = $('#newMedTime').val();
             const date = $('#dateFilter').val();
 
-            if(!medName || !time) return alert("Vui lòng nhập đủ thông tin!");
+            if (!medName || !time) {
+                return alert('Vui lòng nhập đủ thông tin!');
+            }
 
             $('#loading-overlay').removeClass('d-none');
             await fetch(API_URL, {
@@ -457,7 +752,7 @@
 
             $('#addModal').modal('hide');
             $('#newMedName').val('');
-            loadSchedules(date);
+            loadSchedules();
         });
 
         async function markAsTaken(id, currentStatus) {
@@ -466,7 +761,7 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ isTaken: !currentStatus })
             });
-            loadSchedules($('#dateFilter').val());
+            loadSchedules();
         }
     </script>
     <script>
