@@ -458,6 +458,19 @@
             padding: 0.95rem 1.25rem;
             background: #f7f8ff;
         }
+
+        .helper-box {
+            margin-top: 18px;
+            padding: 14px 16px;
+            border-radius: 16px;
+            background: rgba(34, 195, 146, 0.08);
+            color: #1a6b53;
+            font-size: 0.92rem;
+        }
+
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -476,6 +489,8 @@
     </nav>
 
     <div class="container mt-4">
+        <div id="sessionNotice" class="helper-box hidden"></div>
+
         <div class="filter-section">
             <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
                 <div>
@@ -778,12 +793,40 @@
                 }
             }
 
+            function clearSession() {
+                localStorage.removeItem(STORAGE_KEY);
+                $('#sessionNotice').addClass('hidden').empty();
+            }
+
+            function renderSessionNotice(currentUser) {
+                $('#sessionNotice')
+                    .removeClass('hidden')
+                    .html(`
+                        <strong>Thông báo:</strong> Bạn đang đăng nhập với <strong>${currentUser.email}</strong> (${currentUser.role}).
+                        <div class="mt-2">
+                            <button type="button" id="continueSessionBtn" class="btn btn-primary btn-sm">Tiếp tục</button>
+                            <button type="button" id="logoutSessionBtn" class="btn btn-outline-secondary btn-sm ms-2">Đăng xuất</button>
+                        </div>
+                    `);
+
+                $('#continueSessionBtn').on('click', function () {
+                    window.location.href = 'index.html';
+                });
+
+                $('#logoutSessionBtn').on('click', function () {
+                    clearSession();
+                    window.location.replace('auth-standalone.html');
+                });
+            }
+
             const currentUser = getCurrentUser();
 
             if (!currentUser) {
                 window.location.replace('auth-standalone.html');
                 return;
             }
+
+            renderSessionNotice(currentUser);
 
             const adminLink = document.querySelector('a[href="admin.html"]');
 
