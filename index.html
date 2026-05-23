@@ -484,9 +484,15 @@
             }
 
             const currentUser = getCurrentUser();
+
+            if (!currentUser) {
+                window.location.replace('auth-standalone.html');
+                return;
+            }
+
             const adminLink = document.querySelector('a[href="admin.html"]');
 
-            if (!currentUser || currentUser.role !== 'admin') {
+            if (currentUser.role !== 'admin') {
                 if (adminLink) {
                     adminLink.remove();
                 }
