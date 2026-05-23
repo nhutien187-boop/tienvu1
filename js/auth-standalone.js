@@ -52,6 +52,32 @@ function clearAlert() {
     $('#alertBox').addClass('hidden').removeClass('alert-danger alert-success').text('');
 }
 
+function clearSession() {
+    localStorage.removeItem(SESSION_KEY);
+    $('#sessionNotice').addClass('hidden').empty();
+}
+
+function renderSessionNotice(currentUser) {
+    $('#sessionNotice')
+        .removeClass('hidden')
+        .html(`
+            <strong>Thông báo:</strong> Bạn đang đăng nhập với <strong>${currentUser.email}</strong> (${currentUser.role}).
+            <div class="mt-2">
+                <button type="button" id="continueSessionBtn" class="btn btn-primary btn-sm">Tiếp tục</button>
+                <button type="button" id="logoutSessionBtn" class="btn btn-outline-secondary btn-sm ms-2">Đăng xuất</button>
+            </div>
+        `);
+
+    $('#continueSessionBtn').on('click', function () {
+        redirectAfterLogin(currentUser.role || 'user');
+    });
+
+    $('#logoutSessionBtn').on('click', function () {
+        clearSession();
+        showAlert('Đã đăng xuất. Bạn có thể đăng nhập lại.', 'success');
+    });
+}
+
 function switchPanel(panel) {
     clearAlert();
     $('#loginPanel').toggleClass('hidden', panel !== 'login');
@@ -178,6 +204,6 @@ $(function () {
     const currentUser = getCurrentUser();
 
     if (currentUser) {
-        redirectAfterLogin(currentUser.role || 'user');
+        renderSessionNotice(currentUser);
     }
 });

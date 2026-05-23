@@ -206,6 +206,19 @@
             border: none;
             overflow: hidden;
         }
+
+        .helper-box {
+            margin-top: 18px;
+            padding: 14px 16px;
+            border-radius: 16px;
+            background: rgba(34, 195, 146, 0.08);
+            color: #1a6b53;
+            font-size: 0.92rem;
+        }
+
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -215,6 +228,8 @@
     </nav>
 
     <div class="container py-4">
+        <div id="sessionNotice" class="helper-box hidden"></div>
+
         <div class="page-hero">
             <div class="row align-items-center gy-4">
                 <div class="col-lg-7">
@@ -516,6 +531,32 @@
                 }
             }
 
+            function clearSession() {
+                localStorage.removeItem(STORAGE_KEY);
+                $('#sessionNotice').addClass('hidden').empty();
+            }
+
+            function renderSessionNotice(currentUser) {
+                $('#sessionNotice')
+                    .removeClass('hidden')
+                    .html(`
+                        <strong>Thông báo:</strong> Bạn đang đăng nhập với <strong>${currentUser.email}</strong> (${currentUser.role}).
+                        <div class="mt-2">
+                            <button type="button" id="continueSessionBtn" class="btn btn-primary btn-sm">Tiếp tục</button>
+                            <button type="button" id="logoutSessionBtn" class="btn btn-outline-secondary btn-sm ms-2">Đăng xuất</button>
+                        </div>
+                    `);
+
+                $('#continueSessionBtn').on('click', function () {
+                    window.location.href = 'admin.html';
+                });
+
+                $('#logoutSessionBtn').on('click', function () {
+                    clearSession();
+                    window.location.replace('auth-standalone.html');
+                });
+            }
+
             const currentUser = getCurrentUser();
 
             if (!currentUser) {
@@ -525,7 +566,10 @@
 
             if (currentUser.role !== 'admin') {
                 window.location.replace('index.html');
+                return;
             }
+
+            renderSessionNotice(currentUser);
         })();
     </script>
 </body>
