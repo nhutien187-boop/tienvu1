@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tin Tức & Kiến Thức - MedReminder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --primary: #5b3cff;
+            --secondary: #7588ff;
+            --success: #22c392;
+            --danger: #ff5d7a;
+            --bg: #eef2ff;
+            --surface: #ffffff;
+            --surface-soft: #f6f7ff;
+            --text: #232a4a;
+            --muted: #6f7b9d;
+            --border: rgba(110, 125, 255, 0.14);
+            --shadow: 0 30px 80px rgba(50, 63, 128, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at top left, rgba(91, 60, 255, 0.2), transparent 30%),
+                        radial-gradient(circle at bottom right, rgba(95, 196, 255, 0.14), transparent 28%),
+                        var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding-bottom: 60px;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: linear-gradient(135deg, rgba(91, 60, 255, 1), rgba(117, 136, 255, 0.95));
+            border: none;
+            box-shadow: 0 24px 70px rgba(49, 67, 160, 0.18);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar .navbar-brand {
+            letter-spacing: 0.03em;
+            font-weight: 700;
+        }
+
+        .navbar .btn {
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        /* Hero Banner */
+        .hero-section {
+            background: linear-gradient(135deg, rgba(91, 60, 255, 0.95), rgba(117, 136, 255, 0.85)),
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><defs><pattern id="dots" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="2" fill="%23ffffff" opacity="0.1"/></pattern></defs><rect width="1200" height="400" fill="url(%23dots)"/></svg>');
+            background-attachment: fixed;
+            background-size: cover;
+            padding: 80px 0;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1), transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            bottom: -50px;
+            left: -50px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255,255,255,0.08), transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 1rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.15rem;
+            opacity: 0.95;
+            max-width: 600px;
+        }
+
+        /* Search & Filter */
+        .search-filter-section {
+            background: rgba(255,255,255,0.96);
+            border-radius: 28px;
+            padding: 32px;
+            margin: -50px 0 40px 0;
+            box-shadow: 0 30px 80px rgba(50, 63, 128, 0.12);
+            position: relative;
+            z-index: 10;
+        }
+
+        .search-wrapper {
+            position: relative;
+        }
+
+        .search-wrapper input {
+            width: 100%;
+            padding: 14px 18px 14px 50px;
+            border-radius: 999px;
+            border: 2px solid rgba(91, 60, 255, 0.15);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f9fbff;
+        }
+
+        .search-wrapper input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(91, 60, 255, 0.1);
+        }
+
+        .search-wrapper i {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--muted);
+            font-size: 1.1rem;
+        }
+
+        .category-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .category-tabs .btn {
+            border-radius: 999px;
+            padding: 8px 18px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border: 2px solid rgba(91, 60, 255, 0.2);
+            color: var(--text);
+            background: transparent;
+            transition: all 0.3s ease;
+        }
+
+        .category-tabs .btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .category-tabs .btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* News Grid */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 28px;
+            margin-bottom: 50px;
+        }
+
+        /* News Card */
+        .news-card {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(50, 63, 128, 0.1);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .news-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 30px 80px rgba(50, 63, 128, 0.18);
+        }
+
+        .news-card-image {
+            width: 100%;
+            height: 220px;
+            background: linear-gradient(135deg, rgba(91, 60, 255, 0.2), rgba(117, 136, 255, 0.1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .news-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .news-card-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(91, 60, 255, 0.95);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            z-index: 5;
+        }
+
+        .news-card-body {
+            padding: 24px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .news-card-category {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: rgba(91, 60, 255, 0.08);
+            color: var(--primary);
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            width: fit-content;
+            margin-bottom: 12px;
+        }
+
+        .news-card-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 10px;
+            color: var(--text);
+            line-height: 1.4;
+        }
+
+        .news-card-excerpt {
+            color: var(--muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 16px;
+            flex-grow: 1;
+        }
+
+        .news-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 16px;
+            border-top: 1px solid rgba(91, 60, 255, 0.08);
+            margin-top: auto;
+        }
+
+        .news-card-date {
+            font-size: 0.85rem;
+            color: var(--muted);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .news-card-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .news-card-link:hover {
+            gap: 10px;
+        }
+
+        /* Featured Article */
+        .featured-article {
+            background: white;
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: 0 25px 70px rgba(50, 63, 128, 0.12);
+            margin-bottom: 50px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            min-height: 420px;
+        }
+
+        .featured-article-image {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .featured-article-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .featured-article-content {
+            padding: 48px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .featured-article-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(91, 60, 255, 0.08);
+            color: var(--primary);
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            width: fit-content;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .featured-article-title {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 16px;
+            line-height: 1.3;
+            color: var(--text);
+        }
+
+        .featured-article-desc {
+            color: var(--muted);
+            font-size: 1.05rem;
+            line-height: 1.7;
+            margin-bottom: 24px;
+        }
+
+        .featured-article-meta {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(91, 60, 255, 0.08);
+        }
+
+        .featured-article-author {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .featured-article-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .featured-article-author-info small {
+            color: var(--muted);
+            display: block;
+        }
+
+        .featured-article-author-info strong {
+            color: var(--text);
+            display: block;
+        }
+
+        /* Read More Button */
+        .btn-read-more {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 999px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: fit-content;
+        }
+
+        .btn-read-more:hover {
+            background: #4a2fd9;
+            transform: translateX(4px);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            color: var(--muted);
+            margin-bottom: 20px;
+        }
+
+        .empty-state-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 10px;
+        }
+
+        .empty-state-desc {
+            color: var(--muted);
+            font-size: 1rem;
+        }
+
+        /* Loading */
+        #loadingOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.88);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 60px 0;
+            }
+
+            .search-filter-section {
+                margin: -40px 0 30px 0;
+                padding: 24px;
+            }
+
+            .category-tabs {
+                gap: 8px;
+            }
+
+            .category-tabs .btn {
+                padding: 6px 14px;
+                font-size: 0.9rem;
+            }
+
+            .news-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .featured-article {
+                grid-template-columns: 1fr;
+                min-height: auto;
+            }
+
+            .featured-article-image {
+                height: 280px;
+                font-size: 3.5rem;
+            }
+
+            .featured-article-content {
+                padding: 32px;
+            }
+
+            .featured-article-title {
+                font-size: 1.6rem;
+            }
+
+            .featured-article-desc {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .search-filter-section {
+                padding: 18px;
+            }
+
+            .featured-article-content {
+                padding: 20px;
+            }
+
+            .featured-article-title {
+                font-size: 1.4rem;
+            }
+
+            .featured-article-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.html"><i class="bi bi-capsule-pill me-2"></i>MedReminder</a>
+            <div>
+                <a href="index.html" class="btn btn-light btn-sm rounded-pill px-3 fw-bold">Người bệnh</a>
+                <a href="news.html" class="btn btn-light btn-sm rounded-pill px-3 fw-bold ms-2">Tin tức</a>
+                <a href="admin.html" class="btn btn-outline-light btn-sm rounded-pill px-3 ms-2">Quản trị</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Tin Tức & Kiến Thức Y Tế</h1>
+                <p class="hero-subtitle">Cập nhật những thông tin mới nhất về sức khỏe, thuốc và cách quản lý sức khỏe hiệu quả</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search & Filter -->
+    <div class="container mt-5">
+        <div class="search-filter-section">
+            <div class="search-wrapper">
+                <i class="bi bi-search"></i>
+                <input type="text" id="searchInput" placeholder="Tìm tin tức, bài viết...">
+            </div>
+            <div class="category-tabs" id="categoryTabs">
+                <button class="btn btn-category active" data-category="all">Tất cả</button>
+                <button class="btn btn-category" data-category="health">Sức khỏe</button>
+                <button class="btn btn-category" data-category="medication">Thuốc</button>
+                <button class="btn btn-category" data-category="tips">Mẹo & Thủ thuật</button>
+                <button class="btn btn-category" data-category="research">Nghiên cứu</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay">
+        <div class="spinner-border text-primary" role="status"></div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container py-5">
+        <!-- Featured Article -->
+        <section id="featuredContainer"></section>
+
+        <!-- News Grid -->
+        <section id="newsContainer" class="news-grid"></section>
+
+        <!-- Empty State -->
+        <section id="emptyState" class="empty-state hidden" style="display: none;">
+            <div class="empty-state-icon">📰</div>
+            <h3 class="empty-state-title">Không tìm thấy tin tức</h3>
+            <p class="empty-state-desc">Vui lòng thử tìm kiếm với từ khóa khác hoặc xem tất cả bài viết</p>
+        </section>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/news.js"></script>
+</body>
+</html>
