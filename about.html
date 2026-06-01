@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giới thiệu - MedReminder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary: #5b3cff;
+            --secondary: #7588ff;
+            --bg: #eef2ff;
+            --surface: #ffffff;
+            --text: #232a4a;
+            --muted: #6f7b9d;
+            --shadow: 0 30px 80px rgba(50, 63, 128, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at top left, rgba(91, 60, 255, 0.2), transparent 30%),
+                        radial-gradient(circle at bottom right, rgba(95, 196, 255, 0.14), transparent 28%),
+                        var(--bg);
+            color: var(--text);
+            display: flex;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 280px;
+            padding: 32px 24px;
+            background: rgba(255, 255, 255, 0.96);
+            box-shadow: 4px 0 40px rgba(50, 63, 128, 0.08);
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .sidebar-brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: -0.04em;
+        }
+
+        .sidebar-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .sidebar-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 14px 18px;
+            border-radius: 18px;
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 700;
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid transparent;
+            transition: all 0.25s ease;
+        }
+
+        .sidebar-link:hover,
+        .sidebar-link.active {
+            background: rgba(91, 60, 255, 0.12);
+            border-color: rgba(91, 60, 255, 0.18);
+            color: var(--primary);
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            color: var(--muted);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .main-content {
+            margin-left: 300px;
+            width: calc(100% - 300px);
+            padding: 40px 36px;
+        }
+
+        .hero-panel {
+            background: white;
+            border-radius: 34px;
+            padding: 40px;
+            box-shadow: 0 35px 95px rgba(49, 67, 160, 0.12);
+            margin-bottom: 32px;
+            border: 1px solid rgba(110, 125, 255, 0.14);
+        }
+
+        .hero-panel h1 {
+            font-size: clamp(2.4rem, 3.5vw, 3.6rem);
+            margin-bottom: 18px;
+        }
+
+        .hero-panel p {
+            color: var(--muted);
+            font-size: 1.05rem;
+            line-height: 1.9;
+            max-width: 720px;
+            margin-bottom: 0;
+        }
+
+        .about-hero {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 28px;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+
+        .about-hero-image {
+            width: 100%;
+            min-height: 360px;
+            border-radius: 28px;
+            box-shadow: 0 30px 90px rgba(50, 63, 128, 0.12);
+            overflow: hidden;
+            background: linear-gradient(180deg, #5b3cff 0%, #5b3cff 55%, #7c91ff 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .about-hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .about-card-image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .about-hero-copy {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .about-highlight {
+            background: rgba(91, 60, 255, 0.1);
+            border-left: 4px solid var(--primary);
+            padding: 22px 24px;
+            border-radius: 20px;
+            color: var(--text);
+            line-height: 1.8;
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.7);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 24px;
+            margin-top: 24px;
+        }
+
+        .about-card {
+            background: white;
+            border-radius: 26px;
+            overflow: hidden;
+            border: 1px solid rgba(110, 125, 255, 0.12);
+            box-shadow: 0 20px 60px rgba(50, 63, 128, 0.08);
+        }
+
+        .about-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .about-card-body {
+            padding: 24px;
+        }
+
+        .about-card-body h3 {
+            margin-bottom: 14px;
+            font-size: 1.2rem;
+        }
+
+        .about-card-body p {
+            color: var(--muted);
+            line-height: 1.75;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 26px;
+            padding: 28px;
+            box-shadow: 0 18px 50px rgba(50, 63, 128, 0.08);
+            border: 1px solid rgba(110, 125, 255, 0.12);
+        }
+
+        .feature-card h3 {
+            font-size: 1.15rem;
+            margin-bottom: 12px;
+            color: var(--text);
+        }
+
+        .feature-card p {
+            color: var(--muted);
+            line-height: 1.8;
+            font-size: 0.95rem;
+        }
+
+        .team-section {
+            margin-top: 40px;
+        }
+
+        .team-row {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 24px;
+        }
+
+        .team-card {
+            background: white;
+            border-radius: 26px;
+            padding: 24px;
+            box-shadow: 0 18px 50px rgba(50, 63, 128, 0.08);
+            border: 1px solid rgba(110, 125, 255, 0.12);
+            text-align: center;
+        }
+
+        .team-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 18px;
+        }
+
+        .team-card h4 {
+            margin-bottom: 8px;
+            font-size: 1.05rem;
+        }
+
+        .team-card small {
+            color: var(--muted);
+            display: block;
+        }
+
+        @media (max-width: 992px) {
+            .feature-grid,
+            .team-row {
+                grid-template-columns: 1fr;
+            }
+
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 24px;
+            }
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <a href="about.html" class="sidebar-brand"><i class="bi bi-info-circle"></i> MedReminder</a>
+        <div class="sidebar-menu">
+            <a href="index.html" class="sidebar-link"><i class="bi bi-person-circle"></i> Người bệnh</a>
+            <a href="news.html" class="sidebar-link"><i class="bi bi-newspaper"></i> Tin tức</a>
+            <a href="about.html" class="sidebar-link active"><i class="bi bi-info-circle"></i> Giới thiệu</a>
+        </div>
+        <div class="sidebar-footer">
+            Tìm hiểu mục tiêu, giá trị và cách MedReminder hỗ trợ bạn chăm sóc sức khỏe hàng ngày.
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <section class="hero-panel">
+            <div class="about-hero">
+                <div class="about-hero-copy">
+                    <div>
+                        <h1>Giới thiệu MedReminder</h1>
+                        <p>MedReminder được xây dựng để giúp người dùng quản lý việc uống thuốc hiệu quả, theo dõi lịch nhắc thông minh và cập nhật kiến thức chăm sóc sức khỏe. Ứng dụng tối ưu dành cho người bệnh và người chăm sóc, với giao diện thân thiện, trực quan.</p>
+                    </div>
+                    <div class="about-highlight">
+                        <strong>MedReminder hỗ trợ:</strong>
+                        <ul style="margin: 14px 0 0 18px; padding-left: 0; list-style: none; color: var(--muted);">
+                            <li>• Nhắc lịch uống thuốc và giám sát tuân thủ.</li>
+                            <li>• Cập nhật tin tức sức khỏe mới nhất.</li>
+                            <li>• Giao diện đơn giản, dễ dùng với mọi độ tuổi.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="about-hero-image">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=1200&q=80" alt="Ảnh giới thiệu MedReminder">
+                </div>
+            </div>
+        </section>
+
+        <section class="about-grid">
+            <div class="about-card">
+                <img class="about-card-image" src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=900&q=80" alt="Quản lý lịch uống thuốc">
+                <div class="about-card-body">
+                    <h3>Trong tầm tay bạn</h3>
+                    <p>Ứng dụng giúp người bệnh quản lý liệu trình thuốc ngay trên điện thoại, dễ dàng kiểm tra và cập nhật thay đổi chỉ với vài thao tác.</p>
+                </div>
+            </div>
+            <div class="about-card">
+                <img class="about-card-image" src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=900&q=80" alt="Kiến thức sức khỏe">
+                <div class="about-card-body">
+                    <h3>Hiểu rõ hơn về sức khỏe</h3>
+                    <p>Chúng tôi cung cấp các bài viết, mẹo và thông tin y tế chất lượng để bạn luôn chủ động chăm sóc bản thân và gia đình.</p>
+                </div>
+            </div>
+            <div class="about-card">
+                <img class="about-card-image" src="https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?auto=format&fit=crop&w=900&q=80" alt="Đội ngũ hỗ trợ">
+                <div class="about-card-body">
+                    <h3>Đội ngũ giàu tâm huyết</h3>
+                    <p>Đội ngũ phát triển kết hợp chuyên môn y tế và công nghệ để tạo ra giải pháp thân thiện, an toàn và hiệu quả.</p>
+                </div>
+            </div>
+            <div class="about-card">
+                <img class="about-card-image" src="https://images.unsplash.com/photo-1550831107-1553da8c8464?auto=format&fit=crop&w=900&q=80" alt="Hỗ trợ người dùng">
+                <div class="about-card-body">
+                    <h3>Luôn đồng hành</h3>
+                    <p>Chúng tôi xây dựng MedReminder để đồng hành cùng bạn trong mỗi bước chăm sóc sức khỏe, đặc biệt là đường dài điều trị y tế.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="feature-grid">
+            <div class="feature-card">
+                <h3>Quản lý liệu trình</h3>
+                <p>Ghi nhớ giờ uống thuốc, theo dõi tình trạng dùng thuốc và đánh dấu đã uống để đảm bảo tuân thủ liệu trình điều trị.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Thông tin sức khỏe</h3>
+                <p>Cập nhật tin tức, mẹo và kiến thức y tế giúp người dùng hiểu rõ hơn về cách tự chăm sóc sức khỏe.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Đơn giản & thân thiện</h3>
+                <p>Giao diện thiết kế sạch sẽ, trực quan, phù hợp với mọi độ tuổi và người dùng mới làm quen.</p>
+            </div>
+        </section>
+
+        <section class="team-section">
+            <h2 style="margin-bottom: 24px;">Về chúng tôi</h2>
+            <div class="team-row">
+                <div class="team-card">
+                    <div class="team-avatar">TV</div>
+                    <h4>Trần Văn</h4>
+                    <small>Founder & Product</small>
+                </div>
+                <div class="team-card">
+                    <div class="team-avatar">LT</div>
+                    <h4>Lê Thị</h4>
+                    <small>Design & UX</small>
+                </div>
+                <div class="team-card">
+                    <div class="team-avatar">NV</div>
+                    <h4>Ngô Văn</h4>
+                    <small>Phát triển & Hỗ trợ</small>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

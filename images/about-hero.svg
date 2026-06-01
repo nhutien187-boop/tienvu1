@@ -1,0 +1,18 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#5b3cff" />
+      <stop offset="100%" stop-color="#7fc8ff" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="900" rx="52" fill="url(#bg)" />
+  <rect x="120" y="140" width="960" height="620" rx="40" fill="white" opacity="0.12" />
+  <rect x="160" y="180" width="880" height="520" rx="36" fill="white" opacity="0.05" />
+  <circle cx="320" cy="360" r="110" fill="rgba(255,255,255,0.35)" />
+  <path d="M560 280C560 253.49 583.49 230 610 230H790C816.51 230 840 253.49 840 280V420C840 446.51 816.51 470 790 470H610C583.49 470 560 446.51 560 420V280Z" fill="rgba(255,255,255,0.35)" />
+  <path d="M370 520H830" stroke="rgba(255,255,255,0.45)" stroke-width="24" stroke-linecap="round" />
+  <path d="M370 580H700" stroke="rgba(255,255,255,0.45)" stroke-width="24" stroke-linecap="round" />
+  <path d="M370 640H780" stroke="rgba(255,255,255,0.45)" stroke-width="24" stroke-linecap="round" />
+  <text x="120" y="760" fill="white" font-family="Inter, sans-serif" font-size="58" font-weight="700">Ảnh của bạn</text>
+  <text x="120" y="820" fill="rgba(255,255,255,0.82)" font-family="Inter, sans-serif" font-size="32">Thay bằng ảnh thật bằng cách đặt vào \"images/about-hero.svg\"</text>
+</svg>
